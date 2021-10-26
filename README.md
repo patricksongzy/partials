@@ -1,9 +1,11 @@
-# Arduino-HR
+# Partials
+* Contains two projects: `arduino-hr` in Arduino, and `fft` in Rust
+
+## Arduino-HR
 This Arduino program measures heart rate, using the KY-039 heartbeat sensor. The sensor outputs an analogue signal, which represents the light being received by a photoreceptor. This waveform is periodic, as the light received depends on whether oxygenated or deoxygenated blood is flowing. By applying a Sliding Discrete Fourier Transform on the signal, we can determine the frequency of the signal, which would be the heart rate.
-## Schematic Diagram
-![Schematic diagram of the heart rate circuit](https://raw.githubusercontent.com/patricksongzy/arduino-hr/master/images/hr_schematic.png)
-## Rust Code
-* Textbook Fourier implementations for reference (including real in-place radix-2 FFTs), based on (the publicly available):
+
+## FFT
+* Reference Fourier Transform implementations (including real in-place FFTs, and STFTs), based on (the publicly available):
 ```
 @article{Sorensen1987RealvaluedFF,
   title={Real-valued fast Fourier transform algorithms},
@@ -25,3 +27,7 @@ This Arduino program measures heart rate, using the KY-039 heartbeat sensor. The
 * <https://en.wikipedia.org/wiki/Fast_Fourier_transform#FFT_algorithms_specialized_for_real_or_symmetric_data>
 * <https://ieeexplore.ieee.org/document/1165220>
 * <https://www.dsprelated.com/showthread/comp.dsp/71595-1.php>
+
+## Appendix
+### Arduino-HR Schematic Diagram
+![Schematic diagram of the heart rate circuit](https://raw.githubusercontent.com/patricksongzy/arduino-hr/master/images/hr_schematic.png)

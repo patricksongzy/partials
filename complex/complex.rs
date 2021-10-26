@@ -1,6 +1,6 @@
-use std::ops;
+use rand::distributions::{Distribution, Standard};
 use rand::Rng;
-use rand::distributions::{Standard, Distribution};
+use std::ops;
 
 use approx::*;
 
@@ -13,6 +13,12 @@ pub type Float = f64;
 pub struct Complex {
     pub re: Float,
     pub im: Float,
+}
+
+impl From<Float> for Complex {
+    fn from(x: Float) -> Self {
+        Complex::new(x, 0.0)
+    }
 }
 
 impl Complex {
@@ -54,7 +60,8 @@ impl AbsDiffEq for Complex {
     }
 
     fn abs_diff_eq(&self, other: &Self, epsilon: <Float as AbsDiffEq>::Epsilon) -> bool {
-        Float::abs_diff_eq(&self.re, &other.re, epsilon) && Float::abs_diff_eq(&self.im, &other.im, epsilon)
+        Float::abs_diff_eq(&self.re, &other.re, epsilon)
+            && Float::abs_diff_eq(&self.im, &other.im, epsilon)
     }
 }
 
@@ -63,8 +70,14 @@ impl RelativeEq for Complex {
         Float::default_max_relative()
     }
 
-    fn relative_eq(&self, other: &Self, epsilon: <Float as AbsDiffEq>::Epsilon, max_relative: <Float as AbsDiffEq>::Epsilon) -> bool {
-        Float::relative_eq(&self.re, &other.re, epsilon, max_relative) && Float::relative_eq(&self.im, &other.im, epsilon, max_relative)
+    fn relative_eq(
+        &self,
+        other: &Self,
+        epsilon: <Float as AbsDiffEq>::Epsilon,
+        max_relative: <Float as AbsDiffEq>::Epsilon,
+    ) -> bool {
+        Float::relative_eq(&self.re, &other.re, epsilon, max_relative)
+            && Float::relative_eq(&self.im, &other.im, epsilon, max_relative)
     }
 }
 
@@ -73,8 +86,10 @@ impl ops::Mul<Complex> for Complex {
 
     #[inline]
     fn mul(self, other: Self) -> Self {
-        Self::new(self.re * other.re - self.im * other.im, self.re * other.im + self
-.im * other.re)
+        Self::new(
+            self.re * other.re - self.im * other.im,
+            self.re * other.im + self.im * other.re,
+        )
     }
 }
 
@@ -178,4 +193,3 @@ mod tests {
         assert_eq!(product, Complex::new(1.0, 0.0));
     }
 }
-
